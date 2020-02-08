@@ -3,11 +3,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
+import {makeStyles} from "@material-ui/core/styles";
 import {Button, createStyles, IconButton, Theme} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import {makeStyles} from "@material-ui/core/styles";
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 
 interface Props {
     window?: () => Window;

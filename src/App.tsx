@@ -1,14 +1,8 @@
 import React from 'react';
 import HomePage from "./containers/HomePage";
-import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
-import {blueGrey, deepOrange} from '@material-ui/core/colors';
+import {ThemeProvider} from '@material-ui/core/styles';
+import theme from "./models/MaterialTheme";
 
-const theme = createMuiTheme({
-    palette: {
-        primary: blueGrey,
-        secondary: deepOrange,
-    }
-});
 const App: React.FC = () => {
   return (
     <div className="App">
