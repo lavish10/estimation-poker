@@ -1,7 +1,8 @@
 import React from 'react';
-import {AppBar, Card, CardHeader, createStyles, Grid, Tab, Tabs, Theme,} from "@material-ui/core";
+import {Card, CardHeader, createStyles, Grid, Theme,} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import NavTab from "../components/NavTab";
+import CreateSession from "./CreateSession";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,7 +34,8 @@ export default function PageContent() {
                     <Grid item xs={12}>
                         <Card className={classes.paper}>
                             <CardHeader title={"Scrum Poker"}/>
-                            <NavTab values={["Create Session", "Join Session"]} tabpanel={[<>Create Session</>, <>Join Session</>]}/>
+                            <NavTab values={["Create Session", "Join Session"]}
+                                    tabpanel={[<><CreateSession/></>, <>Join Session</>]}/>
                         </Card>
                     </Grid>
                 </Grid>
