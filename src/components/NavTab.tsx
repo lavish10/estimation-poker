@@ -85,13 +85,13 @@ export default function NavTab(props: NabTabProps) {
                 >
 
                     {
-                        props.values.map((valueIterator: string, key: number) => <LinkTab
+                        props.values.map((valueIterator: string, key: number) => <LinkTab key={key}
                             label={valueIterator}  {...a11yProps(key)} />)
                     }
                 </Tabs>
             </AppBar>
             {
-                props.tabpanel.map((tabPanelIterator: JSX.Element, key: number) => <TabPanel value={value} index={key}>
+                props.tabpanel.map((tabPanelIterator: JSX.Element, key: number) => <TabPanel value={value} index={key} key={key}>
                     {tabPanelIterator}
                 </TabPanel>)
             }
