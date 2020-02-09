@@ -1,15 +1,22 @@
 import React, {ChangeEvent} from 'react';
-import {Button, IconButton, TextField} from "@material-ui/core";
+import {Button, IconButton, TextField, Theme, withStyles} from "@material-ui/core";
 import {Lock, NoteAdd} from '@material-ui/icons';
 import DropDown from "../components/DropDown";
 
 interface Props {
-
+    classes: any
 }
 
 interface State {
     cardType: string
 }
+
+const styles = (theme: Theme) => ({
+    root: {
+        color: theme.palette.primary.contrastText
+    }
+});
+
 class CreateSession extends React.Component<Props> {
 
     state: State = {
@@ -21,8 +28,9 @@ class CreateSession extends React.Component<Props> {
     };
 
     render(): JSX.Element {
+        const {classes} = this.props;
         return (
-            <>
+            <div className={classes.root}>
                 <form noValidate autoComplete="off">
                     <TextField id="outlined-basic" label="Session Name" variant="outlined"/>
                     <DropDown onChange={(e: ChangeEvent<HTMLInputElement>) => this.handleChangeDropDown(e)}
@@ -42,15 +50,16 @@ class CreateSession extends React.Component<Props> {
                     <Button
                         variant="contained"
                         color="secondary"
+                        className={classes.root}
                         startIcon={<NoteAdd/>}
                     >
                         Create
                     </Button>
 
                 </form>
-            </>
+            </div>
         );
     }
 }
 
-export default CreateSession;
+export default withStyles(styles, {withTheme: true})(CreateSession);
