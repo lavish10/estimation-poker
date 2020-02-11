@@ -15,11 +15,7 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {
-            marginTop: theme.spacing(1),
             minWidth: 190,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
         }
     }),
 );
@@ -47,7 +43,8 @@ export default function DropDown(props: Props) {
                     defaultValue={""}
                 >
                     {
-                        props.values.map((menuItem: any, key: number) => <MenuItem key={key} value={key}>{menuItem.toString()}</MenuItem>)
+                        props.values.map((menuItem: any, key: number) => <MenuItem key={key}
+                                                                                   value={key}>{menuItem.toString()}</MenuItem>)
                     }
                 </Select>
             </FormControl>
