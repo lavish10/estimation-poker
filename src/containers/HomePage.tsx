@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from "../components/Header";
+import Header from "../uicomponents/Header";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import PageContent from "./PageContent";

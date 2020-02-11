@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {Button, Grid, TextField, Theme, withStyles} from "@material-ui/core";
 import {Lock, NoteAdd} from '@material-ui/icons';
-import DropDown from "../components/DropDown";
+import DropDown from "../uicomponents/DropDown";
 
 interface Props {
     classes: any

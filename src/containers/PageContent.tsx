@@ -1,9 +1,9 @@
 import React from 'react';
 import {Card, CardHeader, createStyles, Grid, Paper, Theme,} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import NavTab from "../components/NavTab";
-import CreateSession from "./CreateSession";
-import JoinSession from "./JoinSession";
+import NavTab from "../uicomponents/NavTab";
+import CreateSession from "../components/CreateSession";
+import JoinSession from "../components/JoinSession";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
