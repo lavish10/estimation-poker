@@ -33,8 +33,9 @@ class CreateSession extends React.Component<Props> {
             <div>
                 <form noValidate autoComplete="off">
                     <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-                        <Grid item xs={12}><TextField id="outlined-basic" label="Session Name"
-                                                      variant="outlined"/></Grid>
+                        <Grid item xs={12}>
+                            <TextField id="outlined-basic" label="Session Name" variant="outlined" fullWidth/>
+                        </Grid>
                         <Grid item xs={12}><DropDown
                             onChange={(e: ChangeEvent<HTMLInputElement>) => this.handleChangeDropDown(e)}
                             values={[

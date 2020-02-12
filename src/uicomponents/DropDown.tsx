@@ -31,7 +31,7 @@ export default function DropDown(props: Props) {
 
     return (
         <div>
-            <FormControl variant="outlined" className={classes.formControl}>
+            <FormControl variant="outlined" className={classes.formControl} fullWidth>
                 <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
                     Cards <ViewCarouselIcon/>
                 </InputLabel>

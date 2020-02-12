@@ -24,9 +24,9 @@ class JoinSession extends React.Component<Props> {
                 <form noValidate autoComplete="off">
                     <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
                         <Grid item xs={12}><TextField
-                            className={"textField"} id="outlined-basic" label="Session id" variant="outlined"/></Grid>
+                            id="outlined-basic" label="Session id" variant="outlined" fullWidth/></Grid>
                         <Grid item xs={12}><TextField
-                            className={"textField"} id="outlined-basic" label="Name" variant="outlined"/></Grid>
+                            id="outlined-basic" label="Name" variant="outlined" fullWidth/></Grid>
                         <Grid item xs={12}>
                             <Button
                                 variant="contained"
