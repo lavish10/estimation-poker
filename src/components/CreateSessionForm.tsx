@@ -17,7 +17,7 @@ const styles = (theme: Theme) => ({
     }
 });
 
-class CreateSession extends React.Component<Props> {
+class CreateSessionForm extends React.Component<Props> {
 
     state: State = {
         cardType: ""
@@ -68,4 +68,4 @@ class CreateSession extends React.Component<Props> {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(CreateSession);
+export default withStyles(styles, {withTheme: true})(CreateSessionForm);

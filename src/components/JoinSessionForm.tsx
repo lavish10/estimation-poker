@@ -15,7 +15,7 @@ const styles = (theme: Theme) => ({
     },
 });
 
-class JoinSession extends React.Component<Props> {
+class JoinSessionForm extends React.Component<Props> {
 
     render(): JSX.Element {
         const {classes} = this.props;
@@ -44,4 +44,4 @@ class JoinSession extends React.Component<Props> {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(JoinSession);
+export default withStyles(styles, {withTheme: true})(JoinSessionForm);
