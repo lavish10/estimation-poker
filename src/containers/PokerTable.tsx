@@ -4,6 +4,7 @@ import {Card, CardHeader, createStyles, Grid, Paper, Theme} from "@material-ui/c
 import Header from "../uicomponents/Header";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import DealForm from "../components/DealForm";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,6 +39,7 @@ export default function PokerTable() {
                                               alignItems="center">
                                             <Grid item xs={12} sm={6}>
                                                 <Paper variant={"outlined"} className={classes.paper}>
+                                                    <DealForm/>
                                                 </Paper>
                                             </Grid>
                                         </Grid>
