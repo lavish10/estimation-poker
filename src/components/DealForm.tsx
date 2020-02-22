@@ -59,17 +59,20 @@ class DealForm extends React.Component<Props, State> {
             <div>
                 <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
                     <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-                        <Grid item xs={2}><TextField
-                            id="outlined-basic" label="Story id" placeholder="#0000" variant="outlined" type="number"
+                        <Grid item xs={3}><TextField
+                            id="outlined-basic" label="ID" placeholder="#0000" variant="outlined" type="number"
                             name="id"
+                            value={this.state.id}
                             onChange={this.handleChange}
                             required/></Grid>
-                        <Grid item xs={10}><TextField
+                        <Grid item xs={9}><TextField
                             id="outlined-basic" label="Story title" placeholder="Title of the story" name="title"
+                            value={this.state.title}
                             onChange={this.handleChange}
                             variant="outlined" fullWidth/></Grid>
                         <Grid item xs={12}><TextField
                             id="outlined-basic" label="Story Description" placeholder="Description of the story"
+                            value={this.state.description}
                             name="description" onChange={this.handleChange}
                             variant="outlined" rows={2} rowsMax={6} fullWidth multiline/></Grid>
                         <Grid item xs={12}>

@@ -40,12 +40,12 @@ export default function PokerTable() {
                                               alignItems="center">
                                             <Grid item xs={12} sm={6}>
                                                 <Paper variant={"outlined"} className={classes.paper}>
-                                                    <DealForm />
+                                                    <DealForm/>
                                                 </Paper>
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
                                                 <Paper variant={"outlined"} className={classes.paper}>
-                                                    <ViewStories />
+                                                    <ViewStories/>
                                                 </Paper>
                                             </Grid>
                                         </Grid>

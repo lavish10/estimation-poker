@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {Grid, Theme, withStyles} from "@material-ui/core";
+import {Theme, withStyles} from "@material-ui/core";
 import Stories from "../models/Stories";
 import {PokerState} from "../redux/reducers/PokerState";
 import {StoryModel} from "../interfaces/StoryModel";
+import ReactVirtualizedTable from "../uicomponents/Table";
 
 interface StateFromRedux {
     stories: Stories
@@ -26,13 +27,50 @@ const mapStateToProps = (state: PokerState): PokerState => {
     };
 };
 
+interface Data {
+    id: number;
+    title: string;
+    description: string;
+}
+
+function createData(
+    id: number,
+    title: string,
+    description: string,
+): Data {
+    return {id, title, description};
+}
+
 class ViewStories extends React.Component<Props, State> {
 
     render() {
         const stories = this.props.stories.Stories;
         return (
             <div>
-                {
+                <ReactVirtualizedTable columns={[
+                    {
+                        width: 200,
+                        label: 'Story ID',
+                        dataKey: 'id',
+                        numeric: true
+                    },
+                    {
+                        width: 120,
+                        label: 'Title',
+                        dataKey: 'title',
+                    },
+                    {
+                        width: 200,
+                        label: "Description",
+                        dataKey: "description"
+                    }
+                ]} dataRows={
+                    stories.map((story: StoryModel, key: number) => {
+                            return createData(story.id, story.title, story.description)
+                        }
+                    )}
+                />
+                {/*{
                     stories.map((story: StoryModel, key: number) => {
                         console.log(story);
                         return (<Grid item xs={6} key={key}>
@@ -41,7 +79,7 @@ class ViewStories extends React.Component<Props, State> {
                             <span>{story.description}</span>
                         </Grid>)
                     })
-                }
+                }*/}
             </div>
         );
     }
