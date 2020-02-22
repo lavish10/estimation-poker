@@ -5,5 +5,4 @@ export const rootReducer = combineReducers({
     pokerReducer: pokerReducer
 });
 export type RootState = ReturnType<typeof rootReducer>
-
-// export default combineReducers({pokerReducer});
+export default combineReducers({pokerReducer});

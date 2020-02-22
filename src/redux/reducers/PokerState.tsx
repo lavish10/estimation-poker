@@ -1,5 +1,5 @@
 import Stories from "../../models/Stories";
 
-export interface PokerReducerState {
+export interface PokerState {
     stories: Stories
 }

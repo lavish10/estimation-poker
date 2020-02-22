@@ -36,15 +36,20 @@ class DealForm extends React.Component<Props, State> {
     };
 
     handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        let name = event.target.name;
-        this.setState({...this.state, [name]: event.target.value});
+        this.setState({...this.state, [event.target.name]: event.target.value});
     };
 
-    handleSubmit = () => {
+    handleSubmit = (event: React.FormEvent<EventTarget>) => {
+        event.preventDefault();
         this.props.addStory({
             description: this.state.description,
             id: this.state.id,
             title: this.state.title
+        });
+        this.setState({
+            description: "",
+            id: 0,
+            title: ""
         });
     };
 
@@ -61,10 +66,11 @@ class DealForm extends React.Component<Props, State> {
                             required/></Grid>
                         <Grid item xs={10}><TextField
                             id="outlined-basic" label="Story title" placeholder="Title of the story" name="title"
+                            onChange={this.handleChange}
                             variant="outlined" fullWidth/></Grid>
                         <Grid item xs={12}><TextField
                             id="outlined-basic" label="Story Description" placeholder="Description of the story"
-                            name="description"
+                            name="description" onChange={this.handleChange}
                             variant="outlined" rows={2} rowsMax={6} fullWidth multiline/></Grid>
                         <Grid item xs={12}>
                             <Button
