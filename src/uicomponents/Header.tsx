@@ -8,6 +8,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Button, createStyles, IconButton, Theme} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import {Link, useParams} from "react-router-dom";
 
 interface Props {
     window?: () => Window;
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function Header(props: Props) {
     const classes = useStyles();
+    let {sessionId} = useParams();
     return (
         <>
             <CssBaseline/>
@@ -53,6 +55,9 @@ export default function Header(props: Props) {
                         <Typography className={classes.title} variant="h6">
                             Poker
                         </Typography>
+                        {/*<Link to={"/poker-table"}><Button color="inherit">Poker Table</Button></Link>*/}
+                        <Link to={`/${sessionId}/poker-table`}><Button color="inherit">Poker Table</Button></Link>
+                        <Link to={"/"}><Button color="inherit">Home</Button></Link>
                         <Button color="inherit">Login</Button>
                     </Toolbar>
                 </AppBar>

@@ -6,6 +6,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import DealForm from "../components/DealForm";
 import ViewStories from "../components/ViewStories";
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -25,6 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 export default function PokerTable() {
     const classes = useStyles();
+    let {sessionId} = useParams();
+    console.log(sessionId);
     return (
         <>
             <Header children={<></>}/>
