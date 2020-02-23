@@ -19,7 +19,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "typescript": "^3.7.5",
-    "react-virtualized": "latest"
+    "react-virtualized": "latest",
+    "crypto-js": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
