@@ -9,12 +9,5 @@ class PokerActions {
             payload: story
         }
     }
-    public viewDeals(stories: Stories):PokerActionTypes{
-        return {
-            type: ActionTypes.GET_DEALS,
-            payload: stories
-        }
-    }
-
 }
 export default PokerActions;

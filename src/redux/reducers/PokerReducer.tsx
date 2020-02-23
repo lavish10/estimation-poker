@@ -18,12 +18,6 @@ export function pokerReducer(state = initialState, action: PokerActionTypes): Po
                     action.payload
                 ])
             };
-        case ActionTypes.GET_DEALS:
-            console.log("Get stories", action.payload);
-            return {
-                ...state,
-                stories: action.payload
-            };
     }
     return initialState;
 }
