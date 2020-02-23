@@ -49,18 +49,18 @@ class ViewStories extends React.Component<Props, State> {
             <div>
                 <ReactVirtualizedTable columns={[
                     {
-                        width: 200,
+                        width: 100,
                         label: 'Story ID',
                         dataKey: 'id',
                         numeric: true
                     },
                     {
-                        width: 120,
+                        width: 180,
                         label: 'Title',
                         dataKey: 'title',
                     },
                     {
-                        width: 200,
+                        width: 300,
                         label: "Description",
                         dataKey: "description"
                     }

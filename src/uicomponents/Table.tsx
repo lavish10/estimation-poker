@@ -51,7 +51,12 @@ const styles = (theme: Theme) =>
             cursor: 'initial',
         },
         tableHeader: {
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+            // fontWeight: "bold",
+            textTransform: "uppercase",
+
+
         }
     });
 
