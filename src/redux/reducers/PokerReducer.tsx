@@ -6,8 +6,9 @@ import SockJS from "sockjs-client";
 
 
 export const initialState: PokerState = {
-    stories: new Stories([ {id: 0, description: "", title: ""} ]),
-    stompClient: Stomp
+    stories: new Stories([{id: 0, description: "", title: ""}]),
+    stompClient: Stomp,
+    cardTypeIndex: 0,
 };
 
 export function pokerReducer(state = initialState, action: PokerActionTypes): PokerState {
@@ -25,6 +26,11 @@ export function pokerReducer(state = initialState, action: PokerActionTypes): Po
             return {
                 ...state,
                 stompClient: Stomp.over(new SockJS("http://localhost:8080/gs-guide-websocket")),
+            };
+        case ActionTypes.SET_DECK_TYPE:
+            return {
+                ...state,
+                cardTypeIndex: action.payload
             }
     }
     return initialState;

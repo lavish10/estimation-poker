@@ -27,7 +27,8 @@ const styles = (theme: Theme) => ({
 const mapStateToProps = (state: PokerState): PokerState => {
     return {
         stories: state.stories,
-        stompClient: state.stompClient
+        stompClient: state.stompClient,
+        cardTypeIndex: 0,
     };
 };
 

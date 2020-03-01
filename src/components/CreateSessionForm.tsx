@@ -1,9 +1,17 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, Dispatch} from 'react';
 import {Button, Grid, TextField, Theme, withStyles} from "@material-ui/core";
 import {Lock, NoteAdd} from '@material-ui/icons';
 import DropDown from "../uicomponents/DropDown";
+import {cardValues} from "../models/CardTypes";
+import {PokerActionTypes} from "../redux/types/PokerActionTypes";
+import PokerActions from "../redux/actions/PokerActions";
+import {connect} from "react-redux";
 
-interface Props {
+interface dispatchProps {
+    setCardType: (cardType: number) => void
+}
+
+interface Props extends dispatchProps {
     classes: any
 }
 
@@ -27,26 +35,24 @@ class CreateSessionForm extends React.Component<Props> {
         this.setState({cardType: event.target.value}, () => console.log(this.state.cardType));
     };
 
+    onFormSubmit = (event: React.FormEvent<EventTarget>) => {
+        event.preventDefault();
+        this.props.setCardType(parseInt(this.state.cardType)); //Store cardType index in redux-store
+        console.log(parseInt(this.state.cardType));
+    };
+
     render(): JSX.Element {
         const {classes} = this.props;
         return (
             <div>
-                <form noValidate autoComplete="off">
+                <form noValidate autoComplete="off" onSubmit={this.onFormSubmit}>
                     <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
                         <Grid item xs={12}>
                             <TextField id="outlined-basic" label="Session Name" variant="outlined" fullWidth/>
                         </Grid>
                         <Grid item xs={12}><DropDown
                             onChange={(e: ChangeEvent<HTMLInputElement>) => this.handleChangeDropDown(e)}
-                            values={[
-                                [ 1, 2, 3, 5, 8, 13, 20, 40 ],
-                                [ 0, 1, 2, 4, 8, 16, 32, 64 ],
-                                [ 1, 2, 4, 8, 12, 16, 24, 40, 80 ],
-                                [ '☕', 1, 2, 3, 5, 8, 13, 20 ],
-                                [ "XS", "S", "M", "L", "XL", "XXL" ],
-                                [ 1, 2, 5, 10, 20, 50, 100 ],
-                                [ 1, 2, 3, 4, 5 ]
-                            ]}
+                            values={cardValues()}
                         />
                         </Grid>
                         <Grid item xs={12}>
@@ -57,6 +63,7 @@ class CreateSessionForm extends React.Component<Props> {
                             color="secondary"
                             className={classes.root}
                             startIcon={<NoteAdd/>}
+                            type="submit"
                         >
                             Create
                         </Button>
@@ -68,4 +75,11 @@ class CreateSessionForm extends React.Component<Props> {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(CreateSessionForm);
+const mapDispatchToProps = (dispatch: Dispatch<PokerActionTypes>) => {
+    const pokerActions = new PokerActions();
+    return {
+        setCardType: async (cardType: number) => dispatch(pokerActions.setCardType(cardType)),
+    }
+};
+
+export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(CreateSessionForm));
