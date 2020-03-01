@@ -6,6 +6,7 @@ import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import PokerTable from "./containers/PokerTable";
 import {Provider} from "react-redux"
 import store from "./redux/Store"
+import BetTable from "./containers/BetTable";
 
 const App: React.FC = () => {
     return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
                         <Switch>
                             <Route exact path={"/"} component={HomePage}/>
                             <Route exact path={"/:sessionId/poker-table"} component={PokerTable}/>
+                            <Route exact path={"/:sessionId/gambler"} component={BetTable}/>
                         </Switch>
                     </Router>
                 </ThemeProvider>

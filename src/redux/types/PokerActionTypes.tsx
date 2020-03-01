@@ -1,11 +1,16 @@
 import {StoryModel} from "../../interfaces/StoryModel";
-import Stories from "../../models/Stories";
+import {Stomp} from "@stomp/stompjs";
 
 export enum ActionTypes {
     MAKE_DEAL,
+    CONNECT_STOMP_CLIENT
 }
 interface MakeDealAction {
     type: typeof ActionTypes.MAKE_DEAL
     payload: StoryModel
 }
-export type PokerActionTypes = MakeDealAction
+interface ConnectStompAction {
+    type: typeof ActionTypes.CONNECT_STOMP_CLIENT
+    payload: Stomp
+}
+export type PokerActionTypes = MakeDealAction | ConnectStompAction

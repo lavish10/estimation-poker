@@ -5,13 +5,16 @@ import Stories from "../models/Stories";
 import {PokerState} from "../redux/reducers/PokerState";
 import {StoryModel} from "../interfaces/StoryModel";
 import ReactVirtualizedTable from "../uicomponents/Table";
+import SockJS from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
 
 interface StateFromRedux {
     stories: Stories
 }
 
 interface State {
-
+    stompClient: any
+    messages: string[]
 }
 
 type Props = StateFromRedux
@@ -23,7 +26,8 @@ const styles = (theme: Theme) => ({
 });
 const mapStateToProps = (state: PokerState): PokerState => {
     return {
-        stories: state.stories
+        stories: state.stories,
+        stompClient: state.stompClient
     };
 };
 
@@ -42,6 +46,29 @@ function createData(
 }
 
 class ViewStories extends React.Component<Props, State> {
+
+    state: State = {
+        stompClient: Stomp.over(new SockJS("http://localhost:8080/gs-guide-websocket")),
+        messages: [""]
+    };
+
+    componentDidMount(): void {
+        // let {sessionId} = useParams();
+        let sessionId: number = 12345;
+        let that = this;
+        that.state.stompClient.connect({}, function (frame: any) {
+
+            console.log('Connected: ' + frame);
+            that.state.stompClient.subscribe("/topic/" + sessionId, function (message: any) {
+                console.log(message.body);
+                that.setState({
+                    ...that.state,
+                    messages: [...that.state.messages, message]
+                });
+            })
+        });
+    }
+
 
     render() {
         const stories = this.props.stories.Stories;
@@ -70,16 +97,6 @@ class ViewStories extends React.Component<Props, State> {
                         }
                     )}
                 />
-                {/*{
-                    stories.map((story: StoryModel, key: number) => {
-                        console.log(story);
-                        return (<Grid item xs={6} key={key}>
-                            <span>{story.id}</span>
-                            <span>{story.title}</span>
-                            <span>{story.description}</span>
-                        </Grid>)
-                    })
-                }*/}
             </div>
         );
     }

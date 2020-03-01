@@ -1,10 +1,13 @@
 import {ActionTypes, PokerActionTypes} from "../types/PokerActionTypes";
 import {PokerState} from "./PokerState";
 import Stories from "../../models/Stories";
+import {Stomp} from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 
 export const initialState: PokerState = {
-    stories: new Stories([ {id: 0, description: "", title: ""} ])
+    stories: new Stories([ {id: 0, description: "", title: ""} ]),
+    stompClient: Stomp
 };
 
 export function pokerReducer(state = initialState, action: PokerActionTypes): PokerState {
@@ -18,6 +21,11 @@ export function pokerReducer(state = initialState, action: PokerActionTypes): Po
                     action.payload
                 ])
             };
+        case ActionTypes.CONNECT_STOMP_CLIENT:
+            return {
+                ...state,
+                stompClient: Stomp.over(new SockJS("http://localhost:8080/gs-guide-websocket")),
+            }
     }
     return initialState;
 }

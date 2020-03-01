@@ -52,6 +52,11 @@ export default function PokerTable() {
                                                 </Paper>
                                             </Grid>
                                         </Grid>
+                                        {/*<Grid container spacing={3} direction="row" justify={"center"}>*/}
+                                        {/*    <Paper variant={"outlined"} className={classes.paper}>*/}
+                                        {/*        */}
+                                        {/*    </Paper>*/}
+                                        {/*</Grid>*/}
                                     </Card>
                                 </Grid>
 
