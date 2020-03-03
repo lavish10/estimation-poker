@@ -7,6 +7,7 @@ import {StoryModel} from "../interfaces/StoryModel";
 import ReactVirtualizedTable from "../uicomponents/Table";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 
 interface StateFromRedux {
     stories: Stories
@@ -17,7 +18,11 @@ interface State {
     messages: string[]
 }
 
-type Props = StateFromRedux
+interface RouterProps {
+    sessionId: string
+}
+
+type Props = StateFromRedux & RouteComponentProps
 
 const styles = (theme: Theme) => ({
     root: {
@@ -56,13 +61,12 @@ class ViewStories extends React.Component<Props, State> {
     };
 
     componentDidMount(): void {
-        // let {sessionId} = useParams();
-        let sessionId: number = 12345;
+        let params = this.props.match.params as RouterProps;
         let that = this;
         that.state.stompClient.connect({}, function (frame: any) {
 
             console.log('Connected: ' + frame);
-            that.state.stompClient.subscribe("/topic/" + sessionId, function (message: any) {
+            that.state.stompClient.subscribe("/topic/" + params.sessionId, function (message: any) {
                 console.log(message.body);
                 that.setState({
                     ...that.state,
@@ -105,4 +109,4 @@ class ViewStories extends React.Component<Props, State> {
     }
 }
 
-export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(ViewStories));
+export default withRouter(connect(mapStateToProps)(withStyles(styles, {withTheme: true})(ViewStories)));
