@@ -15,5 +15,17 @@ class PokerActions {
             payload: index
         }
     }
+    public setSessionName(name: string): PokerActionTypes {
+        return {
+            type: ActionTypes.SET_SESSION_NAME,
+            payload: name
+        }
+    }
+    public setSessionToken(token: string): PokerActionTypes {
+        return {
+            type: ActionTypes.SET_SESSION_TOKEN,
+            payload: token
+        }
+    }
 }
 export default PokerActions;

@@ -9,6 +9,8 @@ export const initialState: PokerState = {
     stories: new Stories([{id: 0, description: "", title: ""}]),
     stompClient: Stomp,
     cardTypeIndex: 0,
+    sessionName: "",
+    sessionToken: "",
 };
 
 export function pokerReducer(state = initialState, action: PokerActionTypes): PokerState {
@@ -31,7 +33,17 @@ export function pokerReducer(state = initialState, action: PokerActionTypes): Po
             return {
                 ...state,
                 cardTypeIndex: action.payload
-            }
+            };
+        case ActionTypes.SET_SESSION_NAME:
+            return {
+                ...state,
+                sessionName: action.payload
+            };
+        case ActionTypes.SET_SESSION_TOKEN:
+            return {
+                ...state,
+                sessionToken: action.payload
+            };
     }
     return initialState;
 }

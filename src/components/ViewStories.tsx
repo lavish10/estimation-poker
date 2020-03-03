@@ -28,7 +28,9 @@ const mapStateToProps = (state: PokerState): PokerState => {
     return {
         stories: state.stories,
         stompClient: state.stompClient,
-        cardTypeIndex: 0,
+        cardTypeIndex: state.cardTypeIndex,
+        sessionName: state.sessionToken,
+        sessionToken: state.sessionToken,
     };
 };
 

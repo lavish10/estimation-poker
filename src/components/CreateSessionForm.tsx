@@ -6,19 +6,23 @@ import {cardValues} from "../models/CardTypes";
 import {PokerActionTypes} from "../redux/types/PokerActionTypes";
 import PokerActions from "../redux/actions/PokerActions";
 import {connect} from "react-redux";
-import {Redirect} from 'react-router-dom';
+import {withRouter, RouteComponentProps} from 'react-router-dom';
+import {randomBytes} from "crypto";
 
 interface dispatchProps {
     setCardType: (cardType: number) => void
+    setSessionName: (name: string) => void
+    setSessionToken: (token: string) => void
 }
 
-interface Props extends dispatchProps {
+interface Props extends dispatchProps, RouteComponentProps {
     classes: any
 }
 
 interface State {
     cardType: string,
-    toPokerTable: boolean
+    sessionName: string,
+    sessionToken: string
 }
 
 const styles = (theme: Theme) => ({
@@ -27,59 +31,73 @@ const styles = (theme: Theme) => ({
     }
 });
 
-class CreateSessionForm extends React.Component<Props> {
+class CreateSessionForm extends React.Component<Props, State> {
 
     state: State = {
         cardType: "",
-        toPokerTable: false
+        sessionName: "",
+        sessionToken: ""
     };
 
     handleChangeDropDown = (event: ChangeEvent<HTMLInputElement>): any => {
         this.setState({cardType: event.target.value}, () => console.log(this.state.cardType));
     };
 
+    handleChangeSessionName = (event: ChangeEvent<HTMLInputElement>): any => {
+        this.setState({...this.state, sessionName: event.target.value}, () => console.log(this.state.sessionName));
+    };
+
     onFormSubmit = (event: React.FormEvent<EventTarget>) => {
         event.preventDefault();
-        this.props.setCardType(parseInt(this.state.cardType)); //Store cardType index in redux-store
-        console.log(parseInt(this.state.cardType));
-        this.setState({...this.state, toPokerTable: true});
+        let sessionTokenFromCrypto = randomBytes(7).toString('hex');
+
+        this.setState({
+            ...this.state,
+            sessionToken: sessionTokenFromCrypto
+        }, () => {
+            this.props.setSessionToken(sessionTokenFromCrypto);
+            this.props.setCardType(parseInt(this.state.cardType)); //Store cardType index in redux-store
+            this.props.setSessionName(this.state.sessionName); //Store session Name in redux-store
+            this.props.history.push("/" + this.state.sessionToken + "/poker-table")
+        });
+        // console.log(this.state);
+        // console.log("sessionTokenFromCrypto" + sessionTokenFromCrypto);
+        // console.log(parseInt(this.state.cardType));
     };
 
     render(): JSX.Element {
         const {classes} = this.props;
-        if (this.state.toPokerTable) {
-            return <Redirect to={"12345/poker-table"}/>    // TODO: Fetch 12345 from redux store & generate, save randomly generated value
-        } else {
-            return (
-                <div>
-                    <form noValidate autoComplete="off" onSubmit={this.onFormSubmit}>
-                        <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField id="outlined-basic" label="Session Name" variant="outlined" fullWidth/>
-                            </Grid>
-                            <Grid item xs={12}><DropDown
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => this.handleChangeDropDown(e)}
-                                values={cardValues()}
-                            />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Lock/>
-                            </Grid>
-                            <Grid item xs={12}><Button
-                                variant="contained"
-                                color="secondary"
-                                className={classes.root}
-                                startIcon={<NoteAdd/>}
-                                type="submit"
-                            >
-                                Create
-                            </Button>
-                            </Grid>
+        return (
+            <div>
+                <form noValidate autoComplete="off" onSubmit={this.onFormSubmit}>
+                    <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField value={this.state.sessionName} id="outlined-basic"
+                                       onChange={this.handleChangeSessionName}
+                                       label="Session Name" variant="outlined" fullWidth/>
                         </Grid>
-                    </form>
-                </div>
-            );
-        }
+                        <Grid item xs={12}><DropDown
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => this.handleChangeDropDown(e)}
+                            values={cardValues()}
+                        />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Lock/>
+                        </Grid>
+                        <Grid item xs={12}><Button
+                            variant="contained"
+                            color="secondary"
+                            className={classes.root}
+                            startIcon={<NoteAdd/>}
+                            type="submit"
+                        >
+                            Create
+                        </Button>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        );
     }
 }
 
@@ -87,7 +105,9 @@ const mapDispatchToProps = (dispatch: Dispatch<PokerActionTypes>) => {
     const pokerActions = new PokerActions();
     return {
         setCardType: async (cardType: number) => dispatch(pokerActions.setCardType(cardType)),
+        setSessionName: async (name: string) => dispatch(pokerActions.setSessionName(name)),
+        setSessionToken: async (token: string) => dispatch(pokerActions.setSessionToken(token)),
     }
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(CreateSessionForm));
+export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(CreateSessionForm)));

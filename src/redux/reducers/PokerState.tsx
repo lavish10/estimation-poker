@@ -5,4 +5,6 @@ export interface PokerState {
     stories: Stories
     stompClient: Stomp
     cardTypeIndex: number
+    sessionName: string
+    sessionToken : string
 }
