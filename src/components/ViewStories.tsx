@@ -5,16 +5,14 @@ import Stories from "../models/Stories";
 import {PokerState} from "../redux/reducers/PokerState";
 import {StoryModel} from "../interfaces/StoryModel";
 import ReactVirtualizedTable from "../uicomponents/Table";
-import SockJS from "sockjs-client";
-import {Stomp} from "@stomp/stompjs";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
+import EstimationPokerService from "../service/EstimationPokerService";
 
 interface StateFromRedux {
     stories: Stories
 }
 
 interface State {
-    stompClient: any
     messages: string[]
 }
 
@@ -22,7 +20,9 @@ interface RouterProps {
     sessionId: string
 }
 
-type Props = StateFromRedux & RouteComponentProps
+interface Props extends StateFromRedux, RouteComponentProps {
+    pokerService: EstimationPokerService
+}
 
 const styles = (theme: Theme) => ({
     root: {
@@ -32,10 +32,9 @@ const styles = (theme: Theme) => ({
 const mapStateToProps = (state: PokerState): PokerState => {
     return {
         stories: state.stories,
-        stompClient: state.stompClient,
         cardTypeIndex: state.cardTypeIndex,
         sessionName: state.sessionToken,
-        sessionToken: state.sessionToken,
+        sessionToken: state.sessionToken
     };
 };
 
@@ -56,17 +55,16 @@ function createData(
 class ViewStories extends React.Component<Props, State> {
 
     state: State = {
-        stompClient: Stomp.over(new SockJS("http://localhost:8080/gs-guide-websocket")),
         messages: [""]
     };
 
     componentDidMount(): void {
         let params = this.props.match.params as RouterProps;
         let that = this;
-        that.state.stompClient.connect({}, function (frame: any) {
-
+        const stompClient: any = this.props.pokerService.getStompClient();
+        stompClient.connect({}, function (frame: any) {
             console.log('Connected: ' + frame);
-            that.state.stompClient.subscribe("/topic/" + params.sessionId, function (message: any) {
+            stompClient.subscribe("/topic/" + params.sessionId, function (message: any) {
                 console.log(message.body);
                 that.setState({
                     ...that.state,

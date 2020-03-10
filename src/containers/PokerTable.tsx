@@ -7,6 +7,7 @@ import Box from "@material-ui/core/Box";
 import DealForm from "../components/DealForm";
 import ViewStories from "../components/ViewStories";
 import {useParams} from "react-router-dom";
+import EstimationPokerService from "../service/EstimationPokerService";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,7 +49,7 @@ export default function PokerTable() {
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
                                                 <Paper variant={"outlined"} className={classes.paper}>
-                                                    <ViewStories/>
+                                                    <ViewStories pokerService={EstimationPokerService.getInstance()}/>
                                                 </Paper>
                                             </Grid>
                                         </Grid>
