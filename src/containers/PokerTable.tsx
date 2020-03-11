@@ -44,7 +44,7 @@ export default function PokerTable() {
                                               alignItems="center">
                                             <Grid item xs={12} sm={6}>
                                                 <Paper variant={"outlined"} className={classes.paper}>
-                                                    <DealForm/>
+                                                    <DealForm pokerService={EstimationPokerService.getInstance()}/>
                                                 </Paper>
                                             </Grid>
                                             <Grid item xs={12} sm={6}>

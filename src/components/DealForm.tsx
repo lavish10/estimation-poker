@@ -5,6 +5,8 @@ import {StoryModel} from "../interfaces/StoryModel";
 import {PokerActionTypes} from "../redux/types/PokerActionTypes";
 import PokerActions from "../redux/actions/PokerActions";
 import {connect} from "react-redux";
+import {RouteComponentProps, withRouter} from 'react-router-dom';
+import EstimationPokerService from "../service/EstimationPokerService";
 
 interface DispatchProps {
     classes: any
@@ -17,8 +19,12 @@ interface State {
     description: string
 }
 
-interface Props extends DispatchProps {
+interface RouterProps {
+    sessionId: string
+}
 
+interface Props extends DispatchProps, RouteComponentProps {
+    pokerService: EstimationPokerService
 }
 
 const styles = (theme: Theme) => ({
@@ -34,6 +40,22 @@ class DealForm extends React.Component<Props, State> {
         id: 0,
         title: ""
     };
+
+    componentDidMount(): void {
+        let params = this.props.match.params as RouterProps;
+        let that = this;
+        const stompClient: any = this.props.pokerService.getStompClient();
+        stompClient.connect({}, function (frame: any) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe("/topic/" + params.sessionId, function (message: any) {
+                console.log(message.body);
+                that.setState({
+                    ...that.state,
+                    // messages: [...that.state.messages, message]
+                });
+            })
+        });
+    }
 
     handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         this.setState({...this.state, [event.target.name]: event.target.value});
@@ -100,4 +122,4 @@ const mapDispatchToProps = (dispatch: Dispatch<PokerActionTypes>) => {
     }
 };
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(DealForm));
+export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(DealForm)));
