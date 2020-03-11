@@ -5,8 +5,6 @@ import Stories from "../models/Stories";
 import {PokerState} from "../redux/reducers/PokerState";
 import {StoryModel} from "../interfaces/StoryModel";
 import ReactVirtualizedTable from "../uicomponents/Table";
-import {RouteComponentProps, withRouter} from 'react-router-dom';
-import EstimationPokerService from "../service/EstimationPokerService";
 
 interface StateFromRedux {
     stories: Stories
@@ -16,12 +14,8 @@ interface State {
     messages: string[]
 }
 
-interface RouterProps {
-    sessionId: string
-}
+interface Props extends StateFromRedux {
 
-interface Props extends StateFromRedux, RouteComponentProps {
-    pokerService: EstimationPokerService
 }
 
 const styles = (theme: Theme) => ({
@@ -58,23 +52,6 @@ class ViewStories extends React.Component<Props, State> {
         messages: [""]
     };
 
-    componentDidMount(): void {
-        let params = this.props.match.params as RouterProps;
-        let that = this;
-        const stompClient: any = this.props.pokerService.getStompClient();
-        stompClient.connect({}, function (frame: any) {
-            console.log('Connected: ' + frame);
-            stompClient.subscribe("/topic/" + params.sessionId, function (message: any) {
-                console.log(message.body);
-                that.setState({
-                    ...that.state,
-                    messages: [...that.state.messages, message]
-                });
-            })
-        });
-    }
-
-
     render() {
         const stories = this.props.stories.Stories;
         return (
@@ -107,4 +84,4 @@ class ViewStories extends React.Component<Props, State> {
     }
 }
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles, {withTheme: true})(ViewStories)));
+export default connect(mapStateToProps)(withStyles(styles, {withTheme: true})(ViewStories));

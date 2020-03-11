@@ -49,7 +49,7 @@ export default function PokerTable() {
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
                                                 <Paper variant={"outlined"} className={classes.paper}>
-                                                    <ViewStories pokerService={EstimationPokerService.getInstance()}/>
+                                                    <ViewStories/>
                                                 </Paper>
                                             </Grid>
                                         </Grid>
