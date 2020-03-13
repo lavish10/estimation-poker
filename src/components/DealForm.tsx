@@ -7,10 +7,15 @@ import PokerActions from "../redux/actions/PokerActions";
 import {connect} from "react-redux";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import EstimationPokerService from "../service/EstimationPokerService";
+import {PokerState} from "../redux/reducers/PokerState";
 
 interface DispatchProps {
     classes: any
     addStory: (story: StoryModel) => void
+}
+
+interface StateFromRedux {
+    cardTypeIndex: number
 }
 
 interface State {
@@ -23,7 +28,7 @@ interface RouterProps {
     sessionId: string
 }
 
-interface Props extends DispatchProps, RouteComponentProps {
+interface Props extends DispatchProps, RouteComponentProps, StateFromRedux {
     pokerService: EstimationPokerService
 }
 
@@ -53,7 +58,10 @@ class DealForm extends React.Component<Props, State> {
                     ...that.state,
                     // messages: [...that.state.messages, message]
                 });
-            })
+            });
+            // stompClient.subscribe("/masterToClient/" + params.sessionId, function (message: any) {
+            //     console.log(message.body);
+            // })
         });
     }
 
@@ -63,11 +71,18 @@ class DealForm extends React.Component<Props, State> {
 
     handleSubmit = (event: React.FormEvent<EventTarget>) => {
         event.preventDefault();
+        let params = this.props.match.params as RouterProps;
         this.props.addStory({
             description: this.state.description,
             id: this.state.id,
             title: this.state.title
         });
+        const stompClient = this.props.pokerService.getStompClient();
+        // @ts-ignore
+        stompClient.send("/app/toClients/" + params.sessionId, {}, JSON.stringify({
+            ...this.state,
+            cardTypeIndex: this.props.cardTypeIndex
+        }));
         this.setState({
             description: "",
             id: 0,
@@ -121,5 +136,13 @@ const mapDispatchToProps = (dispatch: Dispatch<PokerActionTypes>) => {
         addStory: async (story: StoryModel) => dispatch(pokerActions.makeDeal(story)),
     }
 };
+const mapStateToProps = (state: PokerState): PokerState => {
+    return {
+        stories: state.stories,
+        cardTypeIndex: state.cardTypeIndex,
+        sessionName: state.sessionToken,
+        sessionToken: state.sessionToken
+    };
+};
 
-export default withRouter(connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(DealForm)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(DealForm)));
