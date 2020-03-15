@@ -1,5 +1,5 @@
 import React, {ChangeEvent, Dispatch} from 'react';
-import {Button, Grid, TextField, Theme, withStyles} from "@material-ui/core";
+import {Button, Card, Fade, Grid, Snackbar, TextField, Theme, Typography, withStyles, Paper} from "@material-ui/core";
 import {NoteAdd} from '@material-ui/icons';
 import {StoryModel} from "../interfaces/StoryModel";
 import {PokerActionTypes} from "../redux/types/PokerActionTypes";
@@ -7,6 +7,7 @@ import PokerActions from "../redux/actions/PokerActions";
 import {connect} from "react-redux";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import EstimationPokerService from "../service/EstimationPokerService";
+import MuiAlert, {AlertProps} from '@material-ui/lab/Alert';
 import {PokerState} from "../redux/reducers/PokerState";
 
 interface DispatchProps {
@@ -18,10 +19,8 @@ interface StateFromRedux {
     cardTypeIndex: number
 }
 
-interface State {
-    id: number,
-    title: string,
-    description: string
+interface State extends StoryModel {
+    openSnackbar: boolean
 }
 
 interface RouterProps {
@@ -38,12 +37,17 @@ const styles = (theme: Theme) => ({
     },
 });
 
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 class DealForm extends React.Component<Props, State> {
 
     state: State = {
         description: "",
         id: 0,
-        title: ""
+        title: "",
+        openSnackbar: false
     };
 
     componentDidMount(): void {
@@ -89,9 +93,13 @@ class DealForm extends React.Component<Props, State> {
             title: ""
         });
     };
+    copyToClipBoard = (event: React.FormEvent<EventTarget>) => {
+
+    };
 
     render(): JSX.Element {
         const {classes} = this.props;
+        let params = this.props.match.params as RouterProps;
         return (
             <div>
                 <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
@@ -124,7 +132,30 @@ class DealForm extends React.Component<Props, State> {
                             </Button>
                         </Grid>
                     </Grid>
+                    <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
+                        <Grid item xs={6}>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                Invite members
+                            </Typography>
+                            Invite members to join your session. <br/>
+                            Session id: {params.sessionId} <br/>
 
+                            <Button variant={"contained"} color={"primary"} onClick={() => {
+                                navigator.clipboard.writeText(`${window.location.origin}/#/${params.sessionId}/gambler`);
+                                this.setState({...this.state, openSnackbar: true});
+                            }}>COPY INVITE LINK</Button>
+                            <Snackbar
+                                open={this.state.openSnackbar}
+                                onClose={() => {
+                                    this.setState({...this.state, openSnackbar: false})
+                                }}
+                                autoHideDuration={1000}
+                                TransitionComponent={Fade}
+                            >
+                                <Alert severity="info">Invite URL copied!</Alert>
+                            </Snackbar>
+                        </Grid>
+                    </Grid>
                 </form>
             </div>);
     }
