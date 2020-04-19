@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Estimation Poker
+This project enables user to conduct a consensus-based, gamified technique for estimating, mostly used to estimate effort or relative size of development goals in software development.
+It is most commonly used in agile software development, in particular in Scrum and Extreme Programming.
 
+### Tech-stack used: 
+ReactJS, Redux, MaterialUI, WebSocket using Stomp protocol
+<br />
 ## Available Scripts
 
 In the project directory, you can run:
